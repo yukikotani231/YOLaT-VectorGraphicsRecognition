@@ -85,6 +85,7 @@ class SparseCADGCN(torch.nn.Module):
         self.classifier = opt.classifier
         self.class_specific = opt.class_specific
         self.dim_stat = 0 # 13 #16
+        self.opt = opt
                 
         #self.regress_net = Backbone(opt)
         self.cls_net = Backbone(opt)
@@ -104,15 +105,15 @@ class SparseCADGCN(torch.nn.Module):
                     m.bias.requires_grad = True
 
     def forward(self, data, slices):
-        x = data.x.cuda()
-        bbox_idx = data.bbox_idx.cuda()
+        x = data.x.to(self.opt.device)
+        bbox_idx = data.bbox_idx.to(self.opt.device)
 
-        edges = [data.edge.cuda().T]
-        pred_bbox = data.bbox.cuda()
-        stat_feats = data.stat_feats.cuda()
+        edges = [data.edge.to(self.opt.device).T]
+        pred_bbox = data.bbox.to(self.opt.device)
+        stat_feats = data.stat_feats.to(self.opt.device)
 
         edge_weights = [None]
-        edge_attrs = [data.e_attr.cuda()]
+        edge_attrs = [data.e_attr.to(self.opt.device)]
 
         #print("--- overhead %s seconds ---" % (time.time() - start_time))
         #start_time = time.time()
@@ -368,10 +369,10 @@ class DetectionLoss(torch.nn.Module):
     def forward(self, out, data):
         pred_cls = out[0]
         is_super = data.is_super
-        gt_cls = data.labels.cuda()
+        gt_cls = data.labels.to(pred_cls.device)
         
         if self.classifier != 'softmax': 
-            gt_cls = torch.zeros(pred_cls.size()).cuda().scatter_(1, gt_cls.unsqueeze(1), 1)
+            gt_cls = torch.zeros(pred_cls.size()).to(pred_cls.device).scatter_(1, gt_cls.unsqueeze(1), 1)
 
         l0 = self.cls_loss(pred_cls, gt_cls)
         loss = l0

@@ -160,6 +160,7 @@ class OptInit:
         logger = logging.getLogger()
         logger.setLevel(numeric_level)
 
+        
         file_handler = logging.FileHandler(os.path.join(self.args.exp_dir,
                                                         '{}.log'.format(os.path.basename(self.args.exp_dir))))
         file_handler.setFormatter(log_format)

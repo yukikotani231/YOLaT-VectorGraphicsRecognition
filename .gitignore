@@ -128,3 +128,9 @@ dmypy.json
 # Pyre type checker
 .pyre/
 .idea/
+
+data/FloorPlansGraph5_iter/floorplans16-*
+data/FloorPlansGraph5_iter/stats.pkl
+zips/
+log/
+torch_*
