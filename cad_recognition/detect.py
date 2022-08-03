@@ -6,7 +6,7 @@ from __future__ import division
 import __init__
 
 from config import OptInit
-from architecture import SparseCADGCN, DetectionLoss
+from architecture3cc_rpn_gp_iter2 import SparseCADGCN, DetectionLoss
 from Datasets.svg import SESYDFloorPlan
 from utils.ckpt_util import load_pretrained_models, load_pretrained_optimizer, save_checkpoint
 from utils.det_util import get_batch_statistics, ap_per_class
@@ -231,6 +231,7 @@ if __name__ == "__main__":
         starter, ender = torch.cuda.Event(enable_timing=True), torch.cuda.Event(enable_timing=True)
 
         for i_batch, (data, slices) in enumerate(test_loader):
+            print('batch number: %d' % i_batch)
             prev_time = time.time()
 
             pos_slice = slices['pos']

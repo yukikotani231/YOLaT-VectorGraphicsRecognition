@@ -5,8 +5,9 @@ from __future__ import division
 import __init__
 
 from config import OptInit
-from architecture import SparseCADGCN, DetectionLoss
-from Datasets.svg import SESYDFloorPlan
+from architecture3cc_rpn_gp_iter2 import SparseCADGCN, DetectionLoss
+#from Datasets.svg import SESYDFloorPlan
+from Datasets.graph_dict3 import SESYDFloorPlan
 
 import os
 import sys
@@ -35,7 +36,8 @@ if __name__ == "__main__":
     opt = OptInit().get_args()
     logging.info('===> Creating dataloader ...')
     
-    test_dataset = SESYDFloorPlan(opt.data_dir, pre_transform=T.NormalizeScale(), partition = 'train')
+    #test_dataset = SESYDFloorPlan(opt.data_dir, pre_transform=T.NormalizeScale(), partition = 'train')
+    test_dataset = SESYDFloorPlan(opt.data_dir, opt, partition = opt.phase, data_aug = False, do_mixup = False)
     test_loader = DataLoader(test_dataset, 
         batch_size=opt.batch_size, 
         shuffle=False, 

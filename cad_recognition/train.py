@@ -338,7 +338,7 @@ def test(model, test_loader, criterion, opt):
 
         overall_time = 0
         for i_batch, (data, slices) in enumerate(test_loader):
-            print(i_batch)
+            print('testing... batch:%d' % i_batch)
             torch.cuda.synchronize() 
             start_time = time.time()
             pos_slice = slices['pos']
