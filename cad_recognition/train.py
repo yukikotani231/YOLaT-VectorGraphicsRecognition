@@ -297,6 +297,7 @@ def train(model, train_loader, optimizer, scheduler, criterion, opt):
         # ------------------ tensor board log
         info = {
             'test_value': opt.test_value,
+            'test_loss': opt.test_loss,
             'lr': scheduler.get_last_lr()[0]
         }
         for key in loss_dict:
@@ -506,6 +507,7 @@ def test(model, test_loader, criterion, opt):
 
 
     opt.test_value = np.mean(AP)
+    opt.test_loss = np.mean(test_loss['loss'])
     return opt.test_value
 
 if __name__ == '__main__':

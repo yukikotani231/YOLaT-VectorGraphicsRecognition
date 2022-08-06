@@ -427,5 +427,6 @@ if __name__ == "__main__":
             filename = os.path.dirname(path).split('/')[-1] + '_' + os.path.basename(path).split(".")[0]
 
             output_path = os.path.join("output_all", f"{filename}.png")
+            print(output_path)
             plt.savefig(output_path, bbox_inches="tight", pad_inches=0.0)
             plt.close()

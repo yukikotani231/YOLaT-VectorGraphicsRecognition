@@ -134,3 +134,5 @@ data/FloorPlansGraph5_iter/stats.pkl
 zips/
 log/
 torch_*
+vis_debug2/
+output_all/
