@@ -6,8 +6,8 @@ from __future__ import division
 import __init__
 
 from config import OptInit
-from architecture import SparseCADGCN, DetectionLoss
-from Datasets.svg import SESYDFloorPlan
+from architecture3cc_rpn_gp_iter2 import SparseCADGCN, DetectionLoss
+from Datasets.graph_dict3 import SESYDFloorPlan as CADDataset
 from utils.ckpt_util import load_pretrained_models, load_pretrained_optimizer, save_checkpoint
 from utils.det_util import non_max_suppression, get_batch_statistics, ap_per_class
 from torch.nn import functional as F
@@ -29,6 +29,7 @@ from torchvision import datasets
 from torch.autograd import Variable
 import torch_geometric.transforms as T
 from torch_geometric.data import InMemoryDataset
+from train import collate
 
 import matplotlib
 matplotlib.use('Agg')
@@ -53,6 +54,8 @@ if __name__ == "__main__":
         from  Datasets.graph_dict import SESYDFloorPlan as CADDataset
     elif opt.graph == 'bezier_cc_bb':
         from  Datasets.graph_dict2 import SESYDFloorPlan as CADDataset
+    elif opt.graph == 'bezier_cc_bb_iter':
+        from  Datasets.graph_dict3 import SESYDFloorPlan as CADDataset
     
 
     test_dataset = CADDataset(opt.data_dir, opt, partition = opt.phase, data_aug = False, do_mixup = False)
@@ -60,7 +63,7 @@ if __name__ == "__main__":
         batch_size=opt.batch_size, 
         shuffle=False, 
         num_workers=8, 
-        collate_fn = InMemoryDataset.collate)
+        collate_fn = collate)
 
 #    if opt.multi_gpus:
 #        train_loader = DataListLoader(train_dataset, batch_size=opt.batch_size, shuffle=True, num_workers=4)
@@ -87,6 +90,8 @@ if __name__ == "__main__":
         from architecture_cluster import SparseCADGCN, DetectionLoss
     elif opt.arch == 'centernet3cc_rpn':
         from architecture3cc_rpn import SparseCADGCN, DetectionLoss
+    elif opt.arch == 'centernet3cc_rpn_gp_iter2':
+        from architecture3cc_rpn_gp_iter2 import SparseCADGCN, DetectionLoss
 
     model = SparseCADGCN(opt).to(opt.device)
     if opt.multi_gpus:

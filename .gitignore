@@ -136,3 +136,5 @@ log/
 torch_*
 vis_debug2/
 output_all/
+output/
+pretrained_models/

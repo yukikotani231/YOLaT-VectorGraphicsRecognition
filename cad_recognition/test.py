@@ -97,6 +97,7 @@ def main():
 
     opt.test_values = AverageMeter()
     opt.test_value = 0.
+    opt.test_loss = np.nan
     test(model, test_loader, criterion, opt)
 
 

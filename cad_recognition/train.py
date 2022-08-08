@@ -219,6 +219,7 @@ def main():
     # opt.test_metric = miou
     opt.test_values = AverageMeter()
     opt.test_value = 0.
+    opt.test_loss = np.nan
 
     logging.info('===> start training ...')
     for _ in range(opt.total_epochs):
@@ -339,7 +340,7 @@ def test(model, test_loader, criterion, opt):
 
         overall_time = 0
         for i_batch, (data, slices) in enumerate(test_loader):
-            print('testing... batch:%d' % i_batch)
+            print('testing... batch: %d / %d' % (i_batch, len(test_loader)))
             torch.cuda.synchronize() 
             start_time = time.time()
             pos_slice = slices['pos']

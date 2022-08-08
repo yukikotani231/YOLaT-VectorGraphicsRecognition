@@ -149,6 +149,12 @@ class OptInit:
         Configure logger on given level. Logging will occur on standard
         output and in a log file saved in model_dir.
         """
+
+        # 先に既存のロガーを消しておく
+        for h in logging.getLogger().handlers:
+            logging.getLogger().removeHandler(h)
+            h.close()
+
         self.args.loglevel = "info"
         numeric_level = getattr(logging, self.args.loglevel.upper(), None)
         if not isinstance(numeric_level, int):
