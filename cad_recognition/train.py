@@ -19,6 +19,9 @@ from torch_geometric.data import InMemoryDataset
 from config import OptInit
 from sklearn.metrics import confusion_matrix
 import torchvision
+import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
 
 
 from utils.ckpt_util import load_pretrained_models, load_pretrained_optimizer, save_checkpoint
@@ -28,7 +31,6 @@ from utils.det_util import get_batch_statistics, ap_per_class
 
 from Datasets.graph_dict3 import SESYDFloorPlan as CADDataset
 from architecture3cc_rpn_gp_iter2 import SparseCADGCN, DetectionLoss
-
 
 
 def non_max_suppression(prediction, conf_thres=0.25, iou_thres=0.45, classes=None, agnostic=False, labels=()):
@@ -492,6 +494,8 @@ def test(model, test_loader, criterion, opt):
         y_true = np.concatenate(y_true, axis = 0)
         m = confusion_matrix(y_true, y_pred)
 
+        print_cmx(y_true, y_pred)
+
         cate_names = [''] * len(list(test_loader.dataset.class_dict.keys()))
         print()
         output_str = '          '
@@ -510,6 +514,18 @@ def test(model, test_loader, criterion, opt):
     opt.test_value = np.mean(AP)
     opt.test_loss = np.mean(test_loss['loss'])
     return opt.test_value
+
+
+def print_cmx(y_true, y_pred):
+    labels = sorted(list(set(y_true)))
+    cmx_data = confusion_matrix(y_true, y_pred, labels=labels)
+    
+    df_cmx = pd.DataFrame(cmx_data, index=labels, columns=labels)
+
+    plt.figure(figsize = (20,14))
+    sns.heatmap(df_cmx, annot=True, robust=True)
+    plt.show()
+
 
 if __name__ == '__main__':
     main()

@@ -23,6 +23,7 @@ torch-sparse = {file = "https://data.pyg.org/whl/torch-1.7.0%2Bcu110/torch_spars
 torch = {file = "https://download.pytorch.org/whl/cu110/torch-1.7.1%2Bcu110-cp38-cp38-linux_x86_64.whl"}
 torchvision = {file = "https://download.pytorch.org/whl/cu110/torchvision-0.8.2%2Bcu110-cp38-cp38-linux_x86_64.whl"}
 torch-spline-conv = {file = "https://data.pyg.org/whl/torch-1.7.0%2Bcu110/torch_spline_conv-1.2.1-cp38-cp38-linux_x86_64.whl"}
+seaborn = "*"
 
 [dev-packages]
 ipykernel = "*"
