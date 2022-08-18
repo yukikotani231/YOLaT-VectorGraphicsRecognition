@@ -351,17 +351,24 @@ def split_cross(shape_list):
             arc = path[0]
             if not isinstance(arc, Arc):
                 print('Error: Un-implemented path type')
-            x0 = arc.start.real
-            y0 = arc.start.imag
-            x1 = arc.end.real
-            y1 = arc.end.imag
-            rx = arc.radius.real
-            ry = arc.radius.imag
-            rot = arc.rotation
-            large_arc = arc.large_arc
-            sweep = arc.sweep
-            type_dict['arc']['start_end'].append([x0, y0, x1, y1])
-            type_dict['arc']['param'].append([rx, ry, rot, large_arc, sweep])
+            if isinstance(arc, Arc):
+                x0 = arc.start.real
+                y0 = arc.start.imag
+                x1 = arc.end.real
+                y1 = arc.end.imag
+                rx = arc.radius.real
+                ry = arc.radius.imag
+                rot = arc.rotation
+                large_arc = arc.large_arc
+                sweep = arc.sweep
+                type_dict['arc']['start_end'].append([x0, y0, x1, y1])
+                type_dict['arc']['param'].append([rx, ry, rot, large_arc, sweep])
+            elif isinstance(arc, Line):
+                x0 = arc.start.real
+                y0 = arc.start.imag
+                x1 = arc.end.real
+                y1 = arc.end.imag
+                type_dict['line']['start_end'].append([x0, y0, x1, y1])
             #type_dict['arc']['idx'].append(i)
             
         else:
